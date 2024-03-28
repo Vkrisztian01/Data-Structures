@@ -1,2 +1,5 @@
 # Data-Structures
-This repository is dedicated for different data structures, such that are part of the IOI curriculum. 
+This repository is dedicated for various data sctructures that are part of the IOI curriculum.
+Data sctructures are powerful tools in programming, hence a mastery of them can be a dealchanger in competitions.
+The following data strucutres are contained:
+
