@@ -1,68 +1,50 @@
-/*
-
-Static arrays are collections of ordered elements.
-The size of the array refers to the number of elements it can hold.
-A static array means an array, such whose size is fixed with declaration.
-For all i = 0, 1, 2, ..., n-1 and array denoted as "a" : a[i] refers to the i-th element of a
-All primary operations are performed in constant time.
-Our array shall be an integer array for simplicity.
-
-*/
-
 #include <iostream>
+#include<bits/stdc++.h>
+typedef long long ll;
+using ll = long long;
 
 using namespace std;
 
-//we define the template parameters
-template<typename Type,size_t Size>
+ll n,m,a,b;
+ll st[21][200001];
 
-class StaticArray
+void build()
 {
-private:
-
-    Type data[Size];
-
-public:
-
-    //Constructor
-    StaticArray()
+    for(ll i=1;i<=20;i++)
     {
-
-    }
-
-    //Size
-    size_t size()
-    {
-        return Size;
-    }
-
-
-    // Access the elements
-    Type& operator[](size_t index)
-    {
-        if(index>=Size)
+        for(ll j=1;j<n;j++)
         {
-            cerr << "The index is larger than the size"<<endl;
-            exit(1);
+            st[i][j]=max(st[i-1][j],st[i-1][j+1]);
         }
-
-        return data[index];
-
+        st[i][n]=st[i-1][n];
     }
+}
 
-
-
-};
+ll query(ll a,ll b)
+{
+    if(b<a) swap(a,b);
+    ll ans=max(st[0][a],st[0][b]);
+    for(int i=20;i>=0;i--)
+    {
+        if(a+(1<<i)<=b)
+        {
+            ans=max(st[i][a],ans);
+            a+=(1<<i);
+        }
+    }
+    ans=max(ans,st[0][b]);
+    return ans;
+}
 
 int main()
 {
-    //Declaring an array for example
-    StaticArray<int,8> a;
-
-    //Input
-    for(int i=0;i<8;i++) a[i]=i;
-
-    //Output
-    for(int i=0;i<8;i++) cout<<a[i]<<", ";
+    cin>>n>>m;
+    for(ll i=1;i<=n;i++) cin>>st[0][i];
+    build();
+    while(m--)
+    {
+        cin>>a>>b;
+        cout<<query(a,b)<<"\n";
+    }
     return 0;
 }
